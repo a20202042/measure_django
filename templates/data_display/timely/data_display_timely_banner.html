@@ -1,0 +1,170 @@
+{% load static %}
+<div>
+    <div class="row inner">
+        <div class="col-sm">
+            <a class="image" style="height: 600px; width: 800px" onclick="show_project_image()">
+                <img style="height: 600px; width: 800px" src='{{ MEDIA_URL }}{{ project_data.project_image_url }}'
+                     align="center">
+            </a>
+        </div>
+        <div class="col-sm">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="inner">
+                    <th scope="col" style="vertical-align: revert; display: flex;">量測項目名稱</th>
+                    <th scope="col" style="vertical-align: revert">量測項目圖示</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in chart_id %}
+                    <tr>
+                        <td style="vertical-align: revert;">{{ i.item_name }}</td>
+                        <td style="vertical-align: revert">
+                            <a class="image" style="height: 60px; width: 60px"
+                               onclick="show_item_image({{ i.id }})">
+                                <img style="height: 60px; width: 60px" src="{{ MEDIA_URL }}{{ i.image }}">
+                            </a>
+                        </td>
+                    </tr>
+                    <div class="modal" id="{{ i.id }}_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src='{{ MEDIA_URL }}{{ i.image }}' width="860px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal" id="project_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src='{{ MEDIA_URL }}{{ project_data.project_image_url }}' width="860px">
+            </div>
+        </div>
+    </div>
+</div>
+{% for i in chart_id %}
+    {#    <div class="text-center">#}
+    <div>
+        {#        <img src="/static/{{ i.image }}" class="img-thumbnail" style="width:40em;height:30em;" alt="Responsive image">#}
+        <div id='{{ i.id }}' style="width:1200px;height:500px;"></div>
+    </div>
+    {#    <div>#}
+    {#        <div id='test' style="width:1200px;height:500px;"></div>#}
+    {#    </div>#}
+    {#    </div>#}
+{% endfor %}
+<script language="JavaScript">
+    var item = {{ all_data|safe }};
+    for (i in item) {
+        TESTER = document.getElementById(item[i]['name']);
+        var Data = {
+            type: 'scatter',
+            x: item[i]['count_x_data'], {# 1-1 #}
+            y: item[i]['count_y_data'], {# 量測值#}
+            mode: 'lines+markers',
+            name: item[i]['data'],
+            showlegend: true,
+            hoverinfo: 'all',
+            line: {
+                color: 'blue',
+                width: 2
+            },
+            marker: {
+                color: 'blue',
+                size: 8,
+                symbol: 'circle'
+            }
+        }
+        var CL = {
+            type: 'scatter',
+            x: item[i]['count_cl_x_data'], {# ?-? ---> ?-? #}
+            y: item[i]['count_cl_y_data'], {# 下限點二、點一、上限點二、點一 #}
+            mode: 'lines',
+            name: item[i]['cl'],
+            showlegend: true,
+            line: {
+                color: 'red',
+                width: 2,
+                dash: 'dash'
+            }
+        }
+        var Viol = {
+            type: 'scatter',
+            x: item[i]['count_viol_x_data'],
+            y: item[i]['count_viol_y_data'],
+            mode: 'markers',
+            name: item[i]['vol'],
+            showlegend: true,
+            marker: {
+                color: 'rgb(255,65,54)',
+                line: {width: 3},
+                opacity: 0.5,
+                size: 12,
+                symbol: 'circle-open'
+            }
+        }
+        var Centre = {
+            {# 中心線 #}
+            type: 'scatter',
+            x: item[i]['count_x_center_data'],
+            y: item[i]['count_y_center_data'],
+            mode: 'lines',
+            name: item[i]['center'],
+            showlegend: true,
+            line: {
+                color: 'grey',
+                width: 2
+            }
+        }
+
+        var data = [Data, Viol, CL, Centre]
+
+        var layout = {
+            title: item[i]['item_name'],
+            xaxis: {
+                zeroline: false
+            },
+            yaxis: {
+                range: item[i]['count_range_x'], {# 顯示範圍 #}
+                zeroline: false
+            }
+        }
+
+        Plotly.newPlot(item[i]['name'], data, layout);
+        console.log(Plotly.BUILD);
+    }
+
+    function show_item_image(item) {
+        name = '#' + item + '_modal'
+        $(name).modal('show');
+    }
+
+    function show_project_image() {
+        $('#project_modal').modal('show');
+    }
+
+    {#var list = {{ a|safe }};#}
+    {#for (i in list) {#}
+    {#    TESTER = document.getElementById(list[i]['id']);#}
+    {#    Plotly.newPlot(TESTER, [{#}
+    {#        x: [0, 2, 3, 4, 5],#}
+    {#        y: list[i]['y']#}
+    {#    }], {#}
+    {#        margin: {t: 0}#}
+    {#    });}#}
+    {#var Dict = {{ a | safe }};#}
+    {#for (i in Dict){#}
+    {#    alert(Dict[i]['id']);}#}
+    {#alert({{ b|safe }})#}
+    {#傳遞引數#}
+</script>

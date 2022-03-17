@@ -1,0 +1,181 @@
+{% load static %}
+<div>
+    <div class="row">
+        <div class="col-sm">
+            <a class="image" onclick="show_test()" style="width: 700px">
+                <img src='{{ MEDIA_URL }}{{ project_data.project_image_url }}' align="center">
+            </a>
+        </div>
+        <div class="col-sm">
+            <div class="col">
+                <div id="test"></div>
+            </div>
+        </div>
+        <div class="col-sm" style="align-content: center">
+            <table class="table table-bordered" align="center">
+                <thead>
+                <tr align="center" valign="center">
+                    <th>良品數</th>
+                    <th style="color: #3c763d;">{{ go_nogo_data.go }}</th>
+                </tr>
+                <tr align="center" valign="center">
+                    <th>不良品數</th>
+                    <th style="color:red">{{ go_nogo_data.nogo }}</th>
+                </tr>
+                <tr align="center" valign="center">
+                    <th>總產品數</th>
+                    <th style="color: #000000;">{{ go_nogo_data.all }}</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">專案名稱</th>
+            <th scope="col">建立人</th>
+            <th scope="col">建立日期</th>
+            <th scope="col">備註</th>
+            <th scope="col">量測人員</th>
+            <th scope="col">量測數據上傳日期</th>
+            <th scope="col">量測件數</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align="center" valign="center">
+            <td>{{ project_name }}</td>
+            <td>{{ project_data.man }}</td>
+            <td>{{ project_data.create_date }}</td>
+            <td>{{ project_data.remake }}</td>
+            <td>{{ project_data.measure_man }}</td>
+            <td>{{ project_data.update_time }}</td>
+            <td>{{ project_data.number_of_pieces }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <div class="row">
+        <div class="col-sm">
+            <table class="table table-bordered">
+                <thead>
+                <tr align="center" valign="center">
+                    <th scope="col">項目名稱</th>
+                    <th scope="col">規格上限</th>
+                    <th scope="col">規格中心</th>
+                    <th scope="col">規格下線</th>
+                    <th scope="col">標準差</th>
+                    <th scope="col">Ca</th>
+                    <th scope="col">Cp</th>
+                    <th scope="col">Cpk</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for r in all_data %}
+                    <tr align="center" valign="center">
+                        <td>{{ r.item_name }}</td>
+                        <td>{{ r.upper_limit }}</td>
+                        <td>{{ r.center }}</td>
+                        <td>{{ r.lower_limit }}</td>
+                        <td>{{ r.stdev }}</td>
+                        <td style="{{ r.ca_color }}">{{ r.ca }}</td>
+                        <td style="{{ r.cp_color }}">{{ r.cp }}</td>
+                        <td style="{{ r.cpk_color }}">{{ r.cpk }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </thead>
+            </table>
+        </div>
+        <div class="col-sm">
+            <table class="table table-bordered">
+                <thead>
+                <tr align="center" valign="center">
+                    <th scope="col">等級</th>
+                    <th scope="col">Ca</th>
+                    <th scope="col">等級</th>
+                    <th scope="col">Cp</th>
+                    <th scope="col">等級</th>
+                    <th scope="col">Cpk</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr align="center" valign="center">
+                    <td style="color: white; background-color:seagreen;">A</td>
+                    <td>|Ca| ≤ 12.5%</td>
+                    <td style="color: white; background-color:seagreen;">A+</td>
+                    <td>1.67 ≤ Cp</td>
+                    <td style="color: white; background-color:seagreen;">A+</td>
+                    <td>1.67 ≤ Cpk</td>
+                </tr>
+                <tr align="center" valign="center">
+                    <td style="color: whitesmoke; background-color:mediumseagreen">B</td>
+                    <td>12.5% < |Ca| ≤ 25%</td>
+                    <td style="color: whitesmoke; background-color:mediumseagreen">A</td>
+                    <td>1.33 ≤ Cp < 1.67</td>
+                    <td style="color: whitesmoke; background-color:mediumseagreen">A</td>
+                    <td>1.33 ≤ Cpk < 1.67</td>
+                </tr>
+                <tr align="center" valign="center">
+                    <td style="color: whitesmoke; background-color:dodgerblue">C</td>
+                    <td>25% < |Ca| ≤ 50%</td>
+                    <td style="color: whitesmoke; background-color:dodgerblue">B</td>
+                    <td>1.0 ≤ Cp < 1.133</td>
+                    <td style="color: whitesmoke; background-color:dodgerblue">B</td>
+                    <td>1.0 ≤ Cpk < 1.133</td>
+                </tr>
+                <tr align="center" valign="center">
+                    <td style="color: whitesmoke; background-color:orange">B</td>
+                    <td>50% < |Ca|</td>
+                    <td style="color: whitesmoke; background-color:orange">C</td>
+                    <td>0.67 ≤ Cpk < 1.0</td>
+                    <td style="color: whitesmoke; background-color:orange">C</td>
+                    <td>0.67 ≤ Cpk < 1.0</td>
+                </tr>
+                <tr align="center" valign="center">
+                    <td></td>
+                    <td></td>
+                    <td style="color: whitesmoke; background-color:pink">D</td>
+                    <td>Cpk < 0.67</td>
+                    <td style="color: whitesmoke; background-color:pink">D</td>
+                    <td>Cpk < 0.67</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal" id="report_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src='{{ MEDIA_URL }}{{ project_data.project_image_url }}' width="860px">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+
+    function show_test() {
+        $('#report_modal').modal('show');
+    }
+
+    var data = [{
+        values: {{yid_list | safe}},
+        labels: ['良率', '不良率'],
+        type: 'pie',
+        automargin: true,
+
+    }];
+    var layout = {
+        title: {{ pie_chart_name | safe}},
+        height: 400,
+        width: 400
+    };
+
+    Plotly.newPlot('test', data, layout);
+</script>

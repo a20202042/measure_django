@@ -1,0 +1,376 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    {#    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>#}
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% include 'data_display/logo/data_display_logo.html' %}
+            <div>
+                <div class="row">
+                    <div class="col-sm">
+                        <a class="image" onclick="project_image_show()" style="width: 500px">
+                            <img class="image" src='{{ MEDIA_URL }}{{ project_image }}' align="center">
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <div class="col">
+                            <div id="test"></div>
+                        </div>
+                        <table class="table-bordered" align="center">
+                            <thead>
+                            <tr align="center" valign="center">
+                                <th>良品數</th>
+                                <th style="color: #3c763d;">{{ number_yield }}</th>
+                            </tr>
+                            <tr align="center" valign="center">
+                                <th>不良品數</th>
+                                <th style="color:red">{{ number_no_yield }}</th>
+                            </tr>
+                            <tr align="center" valign="center">
+                                <th>總產品數</th>
+                                <th style="color: #000000;">{{ number_all }}</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-sm">
+                    </div>
+                </div>
+            </div>
+            <style>
+                @media print {
+                    html {
+                        height: 100vh;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        overflow: hidden;
+                    }
+
+                    body.printing {
+                        display: block;
+                    }
+
+                    .table {
+                        page-break-inside: avoid;
+                        column-width: 17em;
+                        column-gap: 3em;
+                        width: 990px;
+                        font-size: 3px;
+                        margin-top: 0;
+                        padding-top: 0;
+                    }
+
+                    body {
+                        height: 90%
+                    }
+
+                    .appearance {
+                        width: 1000px;
+                        margin-top: 0;
+                        padding-top: 0;
+                    }
+
+                    .button {
+                        display: none;
+                    }
+
+                    .remake {
+                        display: none;
+                    }
+
+                    .modal {
+                        display: none;
+                    }
+                }
+            </style>
+            <table class="table table-bordered" id='table'>
+                <thead>
+                <tr align="center" valign="center">
+                    <th scope="col">專案名稱</th>
+                    <th scope="col">工單</th>
+                    <th scope="col">工單建立日期</th>
+                    <th scope="col">件數</th>
+                <tbody>
+                <tr align="center" valign="center">
+                    <td style="vertical-align: revert">{{ project.project_name }}</td>
+                    <td style="vertical-align: revert">{{ w.sor_no }}</td>
+                    <td style="vertical-align: revert">{{ w.create_time }}</td>
+                    <td style="vertical-align: revert">{{ w.number_of_parts }}</td>
+                </tr>
+                </tbody>
+                </tr>
+                </thead>
+                <thead>
+                <tr align="center" valign="center">
+                    <th scope="col">加工機台</th>
+                    <th scope="col">材料</th>
+                    <th scope="col">備註</th>
+                <tbody>
+                <tr align="center" valign="center">
+                    <td style="vertical-align: revert">{{ project.manufacturing_machine }}</td>
+                    <td style="vertical-align: revert">{{ project.materials }}</td>
+                    <td style="vertical-align: revert">{{ w.remake }}</td>
+                </tr>
+                </tbody>
+                </tr>
+                </thead>
+            </table>
+            <div>
+                {% for p in all_data %}
+                    <table class="table table-bordered" id="work_order_parts_number_table_{{ p.number }}">
+                        <thead>
+                        <tr>
+                            <th colspan="3" style="background-color:rgb(129,196,190)">件號</th>
+                            <th colspan="4">{{ project_name }}</th>
+                            <th colspan="3" style="background-color:rgb(129,196,190)">數量</th>
+                            <th colspan="5">{{ w.number_of_parts }}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="background-color:rgb(129,196,190)">製令</th>
+                            <th colspan="4">{{ w.manufacturing_order }}</th>
+                            <th colspan="3" style="background-color:rgb(129,196,190)">工單號碼</th>
+                            <th colspan="5">{{ w.sor_no }}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="background-color:rgb(129,196,190)">{{ w.sor_no }}-{{ p.number }}</th>
+                            <th colspan="2" style="background-color:rgb(107,121,158)">量測人員</th>
+                            <th colspan="3">{{ measure_man }}</th>
+                            <th colspan="3" style="background-color:rgb(129,196,190)">量測日期</th>
+                            <th colspan="5">{{ measure_time }}</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" colspan="1">項次</th>
+                            <th rowspan="2" colspan="1">名稱</th>
+                            <th colspan="4">inch</th>
+                            <th colspan="4">mm</th>
+                            <th colspan="2">量測值</th>
+                            <th colspan="1" rowspan="2">GO/NOGO</th>
+                            <th colspan="1" rowspan="2">量具名稱</th>
+                            {#                            <th colspan="1" rowspan="2">備註</th>#}
+                        </tr>
+                        <tr>
+                            <th colspan="1">設計值</th>
+                            <th colspan="1">公差</th>
+                            <th colspan="1">上限</th>
+                            <th colspan="1">下限</th>
+                            <th colspan="1">設計值</th>
+                            <th colspan="1">公差</th>
+                            <th colspan="1">上限</th>
+                            <th colspan="1">下限</th>
+                            <th colspan="1">in</th>
+                            <th colspan="1">mm</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in p.part_number %}
+                            <tr>
+                                <th colspan="1">{{ item.number }}</th>
+                                <th colspan="1">{{ item.measure_item_name }}</th>
+                                <th colspan="1">{{ item.center_in }}</th>
+                                <th colspan="1">{{ item.tolerance_in }}</th>
+                                <th colspan="1">{{ item.upper_in }}</th>
+                                <th colspan="1">{{ item.lower_in }}</th>
+                                <th colspan="1">{{ item.center_mm }}</th>
+                                <th colspan="1">{{ item.tolerance_mm }}</th>
+                                <th colspan="1">{{ item.upper_mm }}</th>
+                                <th colspan="1">{{ item.lower_mm }}</th>
+                                <th colspan="1">{{ item.value_in }}</th>
+                                <th colspan="1">{{ item.value_mm }}</th>
+                                {% if item.GO == 'GO' %}
+                                    <th colspan="1" style="background-color:#05944c;color: #dddddd;">{{ item.GO }}</th>
+                                {% elif item.GO == 'NOGO' %}
+                                    <th colspan="1"
+                                        style="background-color:rgba(210,39,39,0.72); color: #dddddd;">{{ item.GO }}</th>
+                                {% endif %}
+                                <th>{{ item.measure_tool }}</th>
+                            </tr>
+                        {% endfor %}
+                        {#                        {% for part_remake in part_remake %}#}
+                        {#                            {% if part_remake.part_number == p.number %}#}
+                        {#                                <td colspan="2" style="align-content: center">備註</td>#}
+                        {#                                <td colspan="11">#}
+                        {#                                    拍謝備註放這XD#}
+                        {#                                    預設是空白! 有輸入才會變動!所以只做修改按鈕0.0.0可以嗎#}
+                        {#                                    {{ part_remake.remake }}#}
+                        {#                                </td>#}
+                        {#                                <td>#}
+                        {#                                    <button type="button"#}
+                        {#                                            class="btn js-update-part_remake_{{ part_remake.id }} btn-warning "#}
+                        {#                                            style="box-shadow:inset 0 0 0 2px #f0ad4e;"#}
+                        {#                                            data-url="{% url 'work_order_form_update_parts_remake' part_remake.id %}">#}
+                        {#                                        <span style="color: white" class="glyphicon glyphicon-pencil">修改</span>#}
+                        {#                                    </button>#}
+                        {#                                </td>#}
+                        {#                            {% endif %}#}
+                        {#                        {% endfor %}#}
+                        {% include 'measure_work_order_data_display/part_remake_banner.html' %}
+                        </tbody>
+                    </table>
+                    {% for a in appearance_all %}
+                        {% if a.part_number == p.number %}
+                            <table class="table table-bordered table-layout:fixed remake" style="width: 50%">
+                            <thead>
+                            <tr>
+                                <th>第{{ p.number }}件外觀</th>
+                                <th>備註</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th><img class="image" onclick="appearance_image_show({{ a.id }})"
+                                         src='{{ MEDIA_URL }}work_order_appearance_affect/{{ a.id }}.jpg'>
+                                </th>
+                                <th>
+                                    <div style=white-space:normal;word-wrap:break-word;word-break:break-all;">{{ a.remake }}</div>
+                                </th>
+                            </tr>
+                        {% elif a.part_number != p.number %}
+                        {% endif %}
+                    </tbody>
+                    </table>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div id="sidebar" class="noprint">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="project_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src='{{ MEDIA_URL }}{{ project_image }}' width="860px">
+            </div>
+        </div>
+    </div>
+</div>
+{% for a in appearance_all %}
+    <div class="modal" id=appearance_modal_{{ a.id }} tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src='{{ MEDIA_URL }}work_order_appearance_affect/{{ a.id }}.jpg'
+                         width="860px">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</html>
+<script language="JavaScript">
+
+    function project_image_show() {
+        $('#project_modal').modal('show');
+    }
+
+    function appearance_image_show(id) {
+        $('#appearance_modal').modal('show');
+        name = '#' + 'appearance_modal_' + id;
+        $(name).modal('show');
+    }
+
+    function show_project_item(id) {
+        name = '#' + id + '_item_modal';
+        $(name).modal('show');
+    }
+
+    var data = [{
+        values: [{{Yield}}, {{no_yield}}],
+        labels: ['良率', '不良率'],
+        type: 'pie'
+    }];
+
+    var layout = {
+        height: 300,
+        width: 300
+    };
+
+    Plotly.newPlot('test', data, layout);
+
+    $(function () {
+        /* Functions */
+        var loadForm = function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modal .modal-content").html("");
+                    $("#modal").modal('show');
+                },
+                success: function (data) {
+                    $("#modal .modal-content").html(data.html_form);
+                }
+            });
+        };
+        var saveForm = function () {
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.form_is_valid) {
+                        $("#modal").modal("hide");
+                        location.href = '';
+                    } else {
+                        $("#modal .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        };
+
+
+        /* Binding */
+
+        // Create book
+        // $(".js-create-project").click(loadForm);
+        // $("#modal").on("submit", ".js-project-create-form", saveForm);
+        //
+        // // Update book
+        {% for part_remake in part_remake %}
+            $("#work_order_parts_number_table_{{ part_remake.part_number }}").on("click", ".js-update-part_remake_{{ part_remake.id }}", loadForm);
+        {% endfor %}
+        {% for part_remake in part_remake %}
+            $('#modal').on("submit", ".js-work_order-remake-update-form-{{ part_remake.id }}", saveForm);
+        {% endfor %}
+        {#$("#work_order_parts_number_table").on("click", ".js-update-part_remake", loadForm);#}
+        {#$("#modal").on("submit", ".js-work_order-update-form", saveForm);#}
+
+        // Delete book
+        {#$("#work_order_table").on("click", ".js-delet-work-order", loadForm);#}
+        {#$("#modal").on("submit", ".js-work_order-delet", saveForm);#}
+
+
+    });
+</script>

@@ -1,0 +1,43 @@
+<div>
+    <table class="table table-bordered" id="project_table">
+        <thead>
+        <tr align="center" valign="center">
+            <th scope="col">工單</th>
+            <th scope="col">製令</th>
+            <th scope="col">量測專案</th>
+            <th scope="col">件數</th>
+            <th scope="col">建立人</th>
+            <th scope="col">量測人</th>
+            <th scope="col">量測專案建立時間</th>
+            <th scope="col">量測數據上傳時間</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for w in work_order_all %}
+            <tr align="center" valign="center">
+                <td style="vertical-align: revert">{{ w.work_order }}</td>
+                <td style="vertical-align: revert">{{ w.manufacturing_order }}</td>
+                <td style="vertical-align: revert">{{ w.project_name }}</td>
+                <td style="vertical-align: revert">{{ w.measure_man }}</td>
+                <td style="vertical-align: revert">{{ w.founder_name }}</td>
+                <td style="vertical-align: revert">{{ w.number_of_parts }}</td>
+                <td style="vertical-align: revert">{{ w.measure_time }}</td>
+{#                <td style="vertical-align: revert">{{ p.project_create_time }}</td>#}
+                <td style="vertical-align: revert">{{ w.create_time }}</td>
+                <td style="vertical-align: revert">
+                    <button class=" btn-info"
+                            style="box-shadow:inset 0 0 0 2px #0f439d; color: #0f439d; background-color: #0f439d"
+                            type="button"
+                            onclick="location.href='/measure_work_order_data_display/{{ w.work_order_id }}'">
+{#                                            <a href="/measure_data_display/timely/{{ p.project_id }}">#}
+                        <span style="color: #ffffff; font-size: large"
+                              class="glyphicon glyphicon-align-justify glyphicon ">檢視</span>
+                        </a>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

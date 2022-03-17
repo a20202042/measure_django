@@ -1,0 +1,13 @@
+{% load static %}
+<div>
+<section>
+    <form  name="my form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table style="text-align: left;">
+            {{ measure_item_form.as_table }}
+        </table>
+        <input class="primary" type="submit" value="確認">
+        <input type="reset" value="清除">
+    </form>
+</section>
+</div>

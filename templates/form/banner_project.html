@@ -1,0 +1,21 @@
+{% load static %}
+<div>
+    <section>
+        <table class="table" id="book-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>專案名稱</th>
+                <th>建立日期</th>
+                <th>建立人</th>
+                <th>備註</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% include 'project_banner/project_list.html' %}
+            </tbody>
+        </table>
+    </section>
+</div>

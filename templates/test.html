@@ -1,0 +1,481 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% include 'project_display/project_delet_menu_name.html' %}
+            <div>
+                <div id="tester" style="width:1200px;height:500px;"></div>
+            </div>
+            <div>
+                <div id="tester_2" style="width:1200px;height:500px;"></div>
+            </div>
+            <div>
+                <div id="tester_3" style="width:1200px;height:500px;"></div>
+            </div>
+            <div>
+                <div id="tester_4" style="width:1200px;height:500px;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Plots go in blank <div> elements.
+    You can size them in the plot layout,
+    or give the div a size as shown here.
+-->
+<script language="JavaScript">
+    TESTER = document.getElementById('tester');
+    var Data = {
+        type: 'scatter',
+        x: ['1-1', '1-2'],{# 1-1 #}
+        y: [2, 4], {# 量測值#}
+        mode: 'lines+markers',
+        name: 'Value',
+        showlegend: true,
+        hoverinfo: 'all',
+        line: {
+            color: 'blue',
+            width: 2
+        },
+        marker: {
+            color: 'blue',
+            size: 8,
+            symbol: 'circle'
+        }
+    }
+
+    var Viol = {
+        type: 'scatter',
+        x: ['1-1', '1-2'],
+        y: [0, 0],
+        mode: 'markers',
+        name: 'Violation',
+        showlegend: true,
+        marker: {
+            color: 'rgb(255,65,54)',
+            line: {width: 3},
+            opacity: 0.5,
+            size: 12,
+            symbol: 'circle-open'
+        }
+    }
+
+    var CL = {
+        type: 'scatter',
+        x: ['1-1','1-2', null, '1-1', '1-2'], {# ?-? ---> ?-? #}
+        y: [10,10, null,
+            10,10], {# 下限點二、點一、上限點二、點一 #}
+        mode: 'lines',
+        name: 'LCL/UCL',
+        showlegend: true,
+        line: {
+            color: 'red',
+            width: 2,
+            dash: 'dash'
+        }
+    }
+
+    var Centre = { {# 中心線 #}
+        type: 'scatter',
+        x: ['1-1', '1-2'],
+        y: [0, 0],
+        mode: 'lines',
+        name: 'Centre',
+        showlegend: true,
+        line: {
+            color: 'grey',
+            width: 2
+        }
+    }
+
+    var data = [Data, Viol, CL, Centre]
+
+    var layout = {
+        title: '計數管制圖',
+        xaxis: {
+            zeroline: false
+        },
+        yaxis: {
+            range: [10, 1], {# 顯示範圍 #}
+            zeroline: false
+        }
+    }
+
+    Plotly.newPlot('tester', data, layout);
+    console.log(Plotly.BUILD);
+
+{#-- 全距 - 管制圖 分隔 --#}
+    TESTER = document.getElementById('tester_2');
+    var Data_2 = {
+        type: 'scatter',
+        x: {{ r_x_data | safe }},{# 1-1 #}
+        y: {{ r_y_data | safe }}, {# 量測值#}
+        mode: 'lines+markers',
+        name: 'Value',
+        showlegend: true,
+        hoverinfo: 'all',
+        line: {
+            color: 'blue',
+            width: 2
+        },
+        marker: {
+            color: 'blue',
+            size: 8,
+            symbol: 'circle'
+        }
+    }
+
+    var Viol_2 = {
+        type: 'scatter',
+        {#x: {{ x_exceed_data|safe }},#}
+        {#y: {{ y_exceed_data|safe }},#}
+        mode: 'markers',
+        name: 'Violation',
+        showlegend: true,
+        marker: {
+            color: 'rgb(255,65,54)',
+            line: {width: 3},
+            opacity: 0.5,
+            size: 12,
+            symbol: 'circle-open'
+        }
+    }
+
+    var CL_2 = {
+        type: 'scatter',
+        x: [{{r_x_max|safe}}, {{ r_x_min |safe }}, null, {{r_x_max|safe}}, {{ r_x_min |safe }}], {# ?-? ---> ?-? #}
+        y: [{{ r_lcl|safe }}, {{ r_lcl|safe }}, null,
+            {{ r_ucl|safe }},  {{ r_ucl|safe }}], {# 下限點二、點一、上限點二、點一 #}
+        mode: 'lines',
+        name: 'LCL/UCL',
+        showlegend: true,
+        line: {
+            color: 'red',
+            width: 2,
+            dash: 'dash'
+        }
+    }
+
+    var Centre_2 = { {# 中心線 #}
+        type: 'scatter',
+        x: [{{ r_x_min |safe }}, {{r_x_max|safe}}],
+        y: [{{r_r_cl}}, {{r_r_cl}}],
+        mode: 'lines',
+        name: 'Centre',
+        showlegend: true,
+        line: {
+            color: 'grey',
+            width: 2
+        }
+    }
+
+    var data_2 = [Data_2, Viol_2, CL_2, Centre_2]
+
+    var layout_2 = {
+        title: '全距管制圖',
+        xaxis: {
+            zeroline: false
+        },
+        yaxis: {
+            range: [{{r_lower_range |safe }}, {{ r_upper_range|safe }}], {# 顯示範圍 #}
+            zeroline: false
+        }
+    }
+
+    Plotly.newPlot('tester_2', data_2, layout_2);
+    console.log(Plotly.BUILD);
+
+    {#-- 分隔 --#}
+    TESTER = document.getElementById('tester_3');
+    var Data_3 = {
+        type: 'scatter',
+        x: {{ x_x_data | safe }},{# 1-1 #}
+        y: {{ x_y_data | safe }}, {# 量測值#}
+        mode: 'lines+markers',
+        name: 'Value',
+        showlegend: true,
+        hoverinfo: 'all',
+        line: {
+            color: 'blue',
+            width: 2
+        },
+        marker: {
+            color: 'blue',
+            size: 8,
+            symbol: 'circle'
+        }
+    }
+
+    var Viol_3 = {
+        type: 'scatter',
+        {#x: {{ x_exceed_data|safe }},#}
+        {#y: {{ y_exceed_data|safe }},#}
+        mode: 'markers',
+        name: 'Violation',
+        showlegend: true,
+        marker: {
+            color: 'rgb(255,65,54)',
+            line: {width: 3},
+            opacity: 0.5,
+            size: 12,
+            symbol: 'circle-open'
+        }
+    }
+
+    var CL_3 = {
+        type: 'scatter',
+        x: [{{x_x_max|safe}}, {{ x_x_min |safe }}, null, {{x_x_max|safe}}, {{ x_x_min |safe }}], {# ?-? ---> ?-? #}
+        y: [{{ x_lcl|safe }}, {{ x_lcl|safe }}, null,
+            {{ x_ucl|safe }},  {{ x_ucl|safe }}], {# 下限點二、點一、上限點二、點一 #}
+        mode: 'lines',
+        name: 'LCL/UCL',
+        showlegend: true,
+        line: {
+            color: 'red',
+            width: 2,
+            dash: 'dash'
+        }
+    }
+
+    var Centre_3 = { {# 中心線 #}
+        type: 'scatter',
+        x: [{{ x_x_min |safe }}, {{x_x_max|safe}}],
+        y: [{{x_y_center}}, {{x_y_center}}],
+        mode: 'lines',
+        name: 'Centre',
+        showlegend: true,
+        line: {
+            color: 'grey',
+            width: 2
+        }
+    }
+
+    var data_3 = [Data_3, Viol_3, CL_3, Centre_3]
+
+    var layout_3 = {
+        title: 'Basic SPC Chart',
+        xaxis: {
+            zeroline: false
+        },
+        yaxis: {
+            range: [{{ x_upper_range|safe }}, {{ x_lower_range|safe }}], {# 顯示範圍 #}
+            zeroline: false
+        }
+    }
+
+    Plotly.newPlot('tester_3', data_3, layout_3);
+    console.log(Plotly.BUILD);
+
+    {#-- 分隔 --#}
+    TESTER = document.getElementById('tester_4');
+    var Data_4 = {
+        type: 'scatter',
+        x: {{ r_x_data | safe }},{# 1-1 #}
+        y: {{ r_y_data | safe }}, {# 量測值#}
+        mode: 'lines+markers',
+        name: 'Value',
+        showlegend: true,
+        hoverinfo: 'all',
+        line: {
+            color: 'blue',
+            width: 2
+        },
+        marker: {
+            color: 'blue',
+            size: 8,
+            symbol: 'circle'
+        }
+    }
+
+    var Viol_4 = {
+        type: 'scatter',
+        {#x: {{ x_exceed_data|safe }},#}
+        {#y: {{ y_exceed_data|safe }},#}
+        mode: 'markers',
+        name: 'Violation',
+        showlegend: true,
+        marker: {
+            color: 'rgb(255,65,54)',
+            line: {width: 3},
+            opacity: 0.5,
+            size: 12,
+            symbol: 'circle-open'
+        }
+    }
+
+    var CL_4 = {
+        type: 'scatter',
+        x: [{{x_x_max|safe}}, {{ x_x_min |safe }}, null, {{x_x_max|safe}}, {{ x_x_min |safe }}], {# ?-? ---> ?-? #}
+        y: [{{ x_lcl|safe }}, {{ x_lcl|safe }}, null,
+            {{ x_ucl|safe }},  {{ x_ucl|safe }}], {# 下限點二、點一、上限點二、點一 #}
+        mode: 'lines',
+        name: 'LCL/UCL',
+        showlegend: true,
+        line: {
+            color: 'red',
+            width: 2,
+            dash: 'dash'
+        }
+    }
+
+    var Centre_4 = { {# 中心線 #}
+        type: 'scatter',
+        x: [{{ x_x_min |safe }}, {{x_x_max|safe}}],
+        y: [{{x_y_center}}, {{x_y_center}}],
+        mode: 'lines',
+        name: 'Centre',
+        showlegend: true,
+        line: {
+            color: 'grey',
+            width: 2
+        }
+    }
+
+    var data_4 = [Data_4, Viol_4, CL_4, Centre_4]
+
+    var layout_4 = {
+        title: ' SPC Chart',
+        xaxis: {
+            zeroline: false
+        },
+        yaxis: {
+            range: [{{ x_upper_range|safe }}, {{ x_lower_range|safe }}], {# 顯示範圍 #}
+            zeroline: false
+        }
+    }
+
+    Plotly.newPlot('tester_4', data_4, layout_4);
+    console.log(Plotly.BUILD);
+</script>
+<button type="button"
+        id="btn"
+        data-url="{% url 'test' %}">
+    按 鈕
+</button>
+<div id="tester" style="width:100em;height:500px;"></div>
+
+<script language="JavaScript">
+    $(function () {
+        var show = function () {
+            var btn = $(this)
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (value) {
+                    alert()
+                    TESTER = document.getElementById('tester');
+                    var Data = {
+                        type: 'scatter',
+                        x: value.x,
+                        y: value.y,
+                        mode: 'lines+markers',
+                        name: 'Data',
+                        showlegend: true,
+                        hoverinfo: 'all',
+                        line: {
+                            color: 'blue',
+                            width: 2
+                        },
+                        marker: {
+                            color: 'blue',
+                            size: 8,
+                            symbol: 'circle',
+                        }
+                    }
+
+                    var Viol = {
+                        type: 'scatter',
+                        x: [6, 18],
+                        y: [-7, 8],
+                        mode: 'markers',
+                        name: 'Violation',
+                        showlegend: true,
+                        marker: {
+                            color: 'rgb(255,65,54)',
+                            line: {width: 3},
+                            opacity: 0.5,
+                            size: 12,
+                            symbol: 'circle-open'
+                        }
+                    }
+
+                    var CL = {
+                        type: 'scatter',
+                        x: [0.5, 18, null, 0.5, 18],
+                        y: [-5, -5, null, 5, 5],
+                        mode: 'lines',
+                        name: 'LCL/UCL',
+                        showlegend: true,
+                        line: {
+                            color: 'red',
+                            width: 2,
+                            dash: 'dash'
+                        }
+                    }
+
+                    var Centre = {
+                        type: 'scatter',
+                        x: [0.5, 17],
+                        y: [0, 0],
+                        mode: 'lines',
+                        name: 'Centre',
+                        showlegend: true,
+                        line: {
+                            color: 'grey',
+                            width: 2
+                        }
+                    }
+
+                    var data = [Data, Viol, CL, Centre]
+
+                    var layout = {
+                        title: 'Basic SPC Chart',
+                        xaxis: {
+                            zeroline: false
+                        },
+                        yaxis: {
+                            range: [-10, 10],
+                            zeroline: false
+                        }
+                    }
+
+                    Plotly.newPlot('tester', data, layout);
+                    console.log(Plotly.BUILD);
+                }
+            })
+        }
+        $('#btn').click(show)
+    })
+</script>
+</html>

@@ -1,0 +1,42 @@
+<div>
+    <table class="table table-bordered" id="project_table">
+        <thead>
+        <tr align="center" valign="center">
+            <th scope="col"> 專案名稱</th>
+            <th scope="col">專案工單</th>
+            <th scope="col">量測件數</th>
+            <th scope="col">建立人</th>
+            <th scope="col">量測人</th>
+            <th scope="col">量測專案建立時間</th>
+            <th scope="col">量測數據上傳時間</th>
+            <th scope="col">量測件數</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in all_data %}
+            <tr align="center" valign="center">
+                <td style="vertical-align: revert">{{ p.project }}</td>
+                <td style="vertical-align: revert">{{ p.work_order }}</td>
+                <td style="vertical-align: revert">{{ p.number_of_parts }}</td>
+                <td style="vertical-align: revert">{{ p.founder_name }}</td>
+                <td style="vertical-align: revert">{{ p.measure_man }}</td>
+                <td style="vertical-align: revert">{{ p.project_create_time }}</td>
+                <td style="vertical-align: revert">{{ p.value_update_time }}</td>
+                <td style="vertical-align: revert">{{ p.number }}</td>
+                <td style="vertical-align: revert">
+                    <button class=" btn-info"
+                            style="box-shadow:inset 0 0 0 2px darkgreen; color: yellowgreen; background-color: yellowgreen"
+                            type="button"
+                            onclick="location.href='/measure_data_display/timely/{{ p.project_id }}'">
+                        {#                    <a href="/measure_data_display/timely/{{ p.project_id }}">#}
+                        <span style="color: darkgreen; font-size: large"
+                              class="glyphicon glyphicon-align-justify glyphicon ">檢視</span>
+                        </a>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

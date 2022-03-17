@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% include 'project_display/project_delet_menu_name.html' %}
+            <div>
+                <table class="table table-bordered" id="project_table">
+                    <thead>
+                    <tr align="center" valign="center">
+                        <th scope="col"> 專案名稱</th>
+                        <th scope="col">建立時間</th>
+                        <th scope="col">建立人</th>
+                        <th scope="col">備註</th>
+                        <th scope="col">專案圖示</th>
+                        <td></td>
+                    <tbody>
+                    {% include 'project_display/project_banner.html' %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+{#<button class="btn  btn-lg" data-toggle="modal" data-target="#myModal">#}
+{#    開始演示模態框#}
+{#</button>#}
+{#<!-- 模態框（Modal） -->#}
+{#<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}
+{#    <div class="modal-dialog">#}
+{#        <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">#}
+{#                    &times;#}
+{#                </button>#}
+{#                <h4 class="modal-title" id="myModalLabel">#}
+{#                    模態框（Modal）標題#}
+{#                </h4>#}
+{#            </div>#}
+{#            <div class="modal-body">#}
+{#                在這裡新增一些文字#}
+{#            </div>#}
+{#            <div class="modal-footer">#}
+{#                <button type="button" class="btn btn-default" data-dismiss="modal">關閉#}
+{#                </button>#}
+{#                <button type="button" class="btn btn-primary">#}
+{#                    提交更改#}
+{#                </button>#}
+{#            </div>#}
+{#        </div><!-- /.modal-content -->#}
+{#    </div><!-- /.modal -->#}
+{#</div>#}
+</html>

@@ -1,0 +1,41 @@
+{% load static %}
+<header id="header">
+    <div>
+{#        <div class="text-center">#}
+
+            <h2>
+                <p>
+                    <a class="image" href="http://mprdc.nkfust.edu.tw/index.html">
+                        <img src={% static 'images/mprdc_logo.png' %} alt=""><br>
+                    </a>
+                </p>
+            </h2>
+            <h1>
+                生產線上雲端量測管理系統<br>
+                <p>Production line cloud measurement management system</p>
+            </h1>
+
+            <h3>
+                {% if request.path != "/measure_data_display/timely/" %}
+                    <a href="/measure_data_display/timely/{{ id }}" class="button">即時顯示</a>
+                {% else %}
+                    <a href="/measure_data_display/timely/{{ id }}" class="button">即時顯示</a>
+                {% endif %}
+                {% if request.path == "/form_work_order/" %}
+                    <a href="/measure_data_display/display_all/{{ id }}" class="button primary">量測項目全部位顯示</a>
+                {% else %}
+                    <a href="/measure_data_display/display_all/{{ id }}" class="button">量測項目全部位顯示</a>
+                {% endif %}
+                {% if request.path == "/form_measure_tool/" %}
+                    <a href="/measure_data_display/report/{{ id }}" class="button primary">合格報表</a>
+                {% else %}
+                    <a href="/measure_data_display/report/{{ id }}" class="button">合格報表</a>
+                {% endif %}
+            </h3>
+        </div>
+{#    </div>#}
+</header>
+<article>
+    <div class="btn-group" role="group" aria-label="Basic example">
+    </div>
+</article>

@@ -1,0 +1,55 @@
+{% load static %}
+{% for m in item %}
+    <tr align="center" valign="center">
+        <td style="vertical-align: revert">{{ m.too_name }} </td>
+        <td style="vertical-align: revert">{{ m.project_measure }} </td>
+        <td style="vertical-align: revert">{{ m.measurement_items}} </td>
+        <td style="vertical-align: revert">{{ m.upper_limit }}</td>
+        <td style="vertical-align: revert">{{ m.lower_limit }}</td>
+        <td style="vertical-align: revert">{{ m.specification_center }}</td>
+        <td style="vertical-align: revert">{{ m.measure_unit }}</td>
+        <td style="vertical-align: revert">{{ m.measure_points }}</td>
+        <td style="vertical-align: revert">{{ m.measure_number }}</td>
+        <td style="vertical-align: revert">{{ m.decimal_piaces }}</td>
+        <td style="vertical-align: revert">
+            <a href='#modal' id="item_image" onclick="show_project({{ m.id }})">
+                <img id="js-image" src="/media/{{ m.image }}" width='100' height="100" align="center"
+                     alt="Snow">
+            </a>
+        </td>
+        <td style="vertical-align: revert">
+            <button type="button" style="box-shadow:inset 0 0 0 2px #d9534f; color: #d9534f;"
+                    class="btn  js-delet-item btn-danger text-white "
+                    data-url="{% url 'item_delet' m.id %}">
+                <span style="color: white" class="glyphicon glyphicon-trash">刪除</span>
+            </button>
+            <button type="button"
+                    class="btn js-update-item  btn-warning "
+                    style="box-shadow:inset 0 0 0 2px #f0ad4e;"
+                    data-url="{% url 'update_item' m.id %}">
+                <span style="color: white" class="glyphicon glyphicon-pencil">修改</span>
+            </button>
+        </td>
+    </tr>
+    <div class="modal" id="{{ m.id }}_item_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="{{ MEDIA_URL }}{{ m.image }}" width="860px">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<script language="JavaScript">
+    function show_project(id) {
+        name = '#' + id + '_item_modal';
+        $(name).modal('show');
+    }
+</script>
+
+{#<script language="JavaScript">#}
+{#    var img = document.getElementById('js-image')#}
+{#    img.onclick = function (){#}
+{#    alert('1111')#}
+{#</script>#}

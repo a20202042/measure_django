@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% load static %}
+            <header id="header">
+                <div>
+                    <h2>
+                        <p>
+                            <a class="image" href="http://mprdc.nkfust.edu.tw/index.html">
+                                <img src={% static 'images/mprdc_logo.png' %} alt=""><br>
+                            </a>
+                        </p>
+                    </h2>
+                    <h1>
+                        生產線上雲端量測管理系統<br>
+                        <p>Production line cloud measurement management system</p>
+                    </h1>
+                    {#                    <h2>#}
+                    {#                        量測專案管理#}
+                    {#                    </h2>#}
+                    {#                    <nav aria-label="breadcrumb">#}
+                    {#                        <ol class="breadcrumb">#}
+                    {#                            <li class="breadcrumb-item"><a href='/project_menage'>專案管理</a></li>#}
+                    {#                            <li class="breadcrumb-item active" aria-current="page">量測項目新增</li>#}
+                    {#                        </ol>#}
+                    {#                    </nav>#}
+                    {#                    <img  src="/media/{{ project.project_image }}" class="img-thumbnail" width="60%">#}
+                    <div>
+                        <button data-toggle="collapse" data-target="#content">
+                            新增工單XD
+                        </button>
+                        <div class="collapse" id='content'>
+                            <div>
+                                <section>
+                                    <form name="my form" action="." method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <table>
+                                            {{ work_order_form.as_table }}
+                                        </table>
+                                        <input type="submit" value="確認">
+                                        <input type="reset" value="清除">
+                                    </form>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <article>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                </div>
+            </article>
+            <div>
+                <table class="table table-bordered" id="work_order_table">
+                    <thead>
+                    <tr align="center" valign="center">
+                        <th scope="col">工單</th>
+                        <th scope="col">製令</th>
+                        <th scope="col">專案名稱</th>
+                        <th scope="col">件數</th>
+                        <th scope="col">建立時間</th>
+                        <th scope="col">備註</th>
+                        <td></td>
+                    <tbody>
+                    {% include 'work_order/work_order_banner.html' %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+</html>

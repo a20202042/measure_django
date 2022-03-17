@@ -1,0 +1,44 @@
+{% load static %}
+<header id="header">
+    <div>
+        <div>
+            <h2>
+                <p>
+                    <a class="image" href="http://mprdc.nkfust.edu.tw/index.html">
+                        <img src={% static 'images/mprdc_logo.png' %} alt=""><br>
+                    </a>
+                </p>
+            </h2>
+            <h1>
+                生產線上雲端量測管理系統<br>
+                <p>Production line cloud measurement management system</p>
+            </h1>
+        </div>
+        <h3>
+            {% if request.path == "/form_project/" %}
+                <a href="/form_project/" class="button primary">專案名稱</a>
+            {% else %}
+                <a href="/form_project/" class="button">專案名稱</a>
+            {% endif %}
+            {% if request.path == "/form_work_order/" %}
+                <a href="/form_work_order/" class="button primary">專案工單</a>
+            {% else %}
+                <a href="/form_work_order/" class="button">專案工單</a>
+            {% endif %}
+            {% if request.path == "/form_measure_tool/" %}
+                <a href="/form_measure_tool/" class="button primary">量具名稱</a>
+            {% else %}
+                <a href="/form_measure_tool/" class="button">量具名稱</a>
+            {% endif %}
+            {% if request.path == "/form_measure_item/" %}
+                <a href="/form_measure_item/" class="button primary">量測項目</a>
+            {% else %}
+                <a href="/form_measure_item/" class="button">量測項目</a>
+            {% endif %}
+        </h3>
+    </div>
+</header>
+<article>
+    <div class="btn-group" role="group" aria-label="Basic example">
+    </div>
+</article>

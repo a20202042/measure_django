@@ -1,0 +1,21 @@
+{% load static %}
+<nav id="menu" class = "noprint">
+    <header class="major">
+        <h2>選單 </h2>
+        <h3>Menu</h3>
+    </header>
+    {% if request.user.is_authenticated %}
+    <ul>
+        <li><a href={% url 'logout' %}>{{ request.user }}<br>使用者登出</a></li>
+        <li><a href='/project_menage'>量測專案管理</a></li>
+        <li><a href="/work_order">量測工單管理</a></li>
+        <li><a href="/measure_work_order_data_display">量測數據解析</a></li>
+        <li><a href="/admin">後台資料管理</a></li>
+    </ul>
+    {% else  %}
+    <ul>
+        <li><a href={% url 'login' %}>使用者登入</a></li>
+        <li><a href="/admin">後台資料管理</a></li>
+    </ul>
+    {% endif %}
+</nav>

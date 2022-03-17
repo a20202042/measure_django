@@ -1,0 +1,31 @@
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+<form method="post" action="{% url 'tool_delet' id %}" class="js-tool-delet">
+    {% csrf_token %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close" style="padding: inherit; opacity:3;font-size:12px">
+            <span aria-hidden="true">x</span>
+        </button>
+        <h2 class="modal-title" style="">量具刪除</h2>
+    </div>
+    <div class="modal-body" style="text-align: left">
+        <h2 class="lead" style="font-size:160%"> 確認刪除量具 ：</h2>
+        <p style="font-size: large">
+            量具名稱：{{ tool_name }}<br>
+            量具類型：{{ tooltype }}<br>
+            量具精度：{{ toolprecision }}<br>
+            量具檢測日期：{{ tooltestdata }}<br>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn primary " data-dismiss="modal">
+            關閉
+        </button>
+        <button type="submit" class="btn"
+                style="background:  #d9534f; box-shadow:inset 0 0 0 2px #d9534f;">
+            <span style="color: white" class="glyphicon glyphicon-trash">
+                刪除量具資料
+            </span>
+        </button>
+    </div>
+</form>

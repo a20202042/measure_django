@@ -1,0 +1,54 @@
+{% load static %}
+{#{{ project_measure_items }}#}
+{% for w in work_orders %}
+    <tr align="center" valign="center">
+        {#        <td style="vertical-align: revert">#}
+        {#            <a href='#modal' id="item_image" onclick="show_project_item({{ p.id }})">#}
+        {#                <img id="js-image" src="/media/{{ p.image }}" width='50' height="50"#}
+        {#                     alt="Snow">#}
+        {#            </a>#}
+        {#        </td>#}
+        <td style="vertical-align: revert">{{ w.sor_no }} </td>
+        <td style="vertical-align: revert">{{ w.manufacturing_order }} </td>
+        <td style="vertical-align: revert">{{ w.project_measure }} </td>
+        <td style="vertical-align: revert">{{ w.number_of_parts }} </td>
+        <td style="vertical-align: revert">{{ w.create_time }} </td>
+        <td style="vertical-align: revert">{{ w.remake }} </td>
+        <td style="vertical-align: revert">
+            <button type="button" style="box-shadow:inset 0 0 0 2px #d9534f; color: #d9534f;"
+                    class="btn  js-delet-work-order btn-danger text-white"
+                    data-url="{% url 'work_order_delet' w.id %}">
+                <span style="color: white" class="glyphicon glyphicon-trash">刪除</span>
+            </button>
+            <button type="button"
+                    class="btn js-update-project-item btn-warning " style="box-shadow:inset 0 0 0 2px #f0ad4e;"
+                    data-url="{% url 'work_order_update' w.id %}">
+                <span style="color: white" class="glyphicon glyphicon-pencil">修改</span>
+            </button>
+            <button type="button"
+                    class="btn" style="box-shadow:inset 0 0 0 2px #646464;"
+                    href="{% url 'work_order_item_display' w.id %}"
+                    onclick="location.href='/work_order/measure_item/{{ w.id }}'">
+                <span style="color: #646464" class="glyphicon glyphicon-book">修改量測項目</span>
+            </button>
+        </td>
+    </tr>
+    {#    <div class="modal" id="{{ p.id }}_item_modal" tabindex="-1" aria-labelledby="exampleModalLabel"#}
+    {#         aria-hidden="true">#}
+    {#        <div class="modal-dialog modal-lg">#}
+    {#            <div class="modal-content">#}
+    {#                <div class="modal-body">#}
+    {#                    <img src="{{ MEDIA_URL }}{{ p.image }}" width="860px">#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endfor %}
+<script language="JavaScript">
+    function show_project_item(id) {
+        name = '#' + id + '_item_modal';
+        $(name).modal('show');
+    }
+</script>
+</tr>
+</thead>

@@ -1,0 +1,27 @@
+<form method="post" action="{% url 'update_tool' form.instance.id %}" class="js-tool-update-form">
+    {% csrf_token %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close" style="padding: inherit; opacity:3;font-size:12px">
+            <span aria-hidden="true">x</span>
+        </button>
+        <h2 class="modal-title">編輯量具</h2>
+    </div>
+    <div class="modal-body">
+    {% load widget_tweaks %}
+        {% for field in form %}
+            <div class="form-group{% if field.errors %} has-error{% endif %}">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% render_field field class="form-control"%}
+{#            ?#}
+                {% for error in field.errors %}
+                    <p class="help-block">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="modal-footer" >
+        <button type="button" class="btn" data-dismiss="modal">關閉</button>
+        <button type="submit" class="btn" style="color:whitesmoke" >儲存修改</button>
+    </div>
+</form>

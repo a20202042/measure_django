@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% include 'data_display/logo/data_display_logo.html' %}
+            <div>
+                    {% include 'data_display/data_display_timely_banner.html' %}
+            </div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+</html>

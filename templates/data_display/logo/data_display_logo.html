@@ -1,0 +1,26 @@
+{% load static %}
+<header id="header">
+    <div>
+        <h2>
+            <p>
+                <a class="image noprint" href="http://mprdc.nkfust.edu.tw/index.html">
+                    <img src={% static 'images/mprdc_logo.png' %} alt=""><br>
+                </a>
+            </p>
+        </h2>
+        <h1>
+            生產線上雲端量測管理系統<br>
+            <p>Production line cloud measurement management system</p>
+        </h1>
+        <h3>
+            量測專案數據解析
+        </h3>
+    </div>
+    <style>
+        @media print {
+            .noprint {
+                display: none;
+            }
+        }
+    </style>
+</header>

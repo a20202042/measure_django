@@ -1,0 +1,38 @@
+{% for t in tool %}
+    <tr align="center" valign="center">
+        <td style="vertical-align: revert">{{ t.toolname }} </td>
+        <td style="vertical-align: revert">{{ t.tooltype }} </td>
+        <td style="vertical-align: revert">{{ t.toolprecision }} </td>
+        <td style="vertical-align: revert">{{ t.tooltestdata }}</td>
+        <td style="vertical-align: revert">
+            <button type="button"
+                    class="btn js-delet-tool  btn-danger text-white "
+                    style="box-shadow:inset 0 0 0 2px #d9534f; color: #d9534f;"
+                    data-url="{% url 'tool_delet' t.id %}">
+                <span class="glyphicon glyphicon-trash" style="color: white">刪除</span>
+            </button>
+            <button type="button"
+                    class="btn js-update-tool  btn-warning "
+                    style="box-shadow:inset 0 0 0 2px #f0ad4e;"
+                    data-url="{% url 'update_tool' t.id %}">
+                <span class="glyphicon glyphicon-pencil" style="color: white">修改</span>
+
+            </button>
+        </td>
+    </tr>
+{% endfor %}
+
+{#<script>#}
+{#    function go_delet(name){#}
+{#        var id = name#}
+{#        if (name === "") {#}
+{#            window.location = '';#}
+{#        }#}
+{#        else {#}
+{#            var url = "/delet/" + id#}
+{#            window.location = url;#}
+{#        }#}
+{#window.location = "/"#}
+{#跳至網址#}
+{#    }#}
+{#</script>#}

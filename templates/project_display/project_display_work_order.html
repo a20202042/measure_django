@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% include 'project_display/project_delet_menu_name.html' %}
+            <div>
+                <table class="table table-bordered" id="work_order">
+                    <thead>
+                    <tr align="center" valign="center">
+                        <th scope="col"> 專案名稱</th>
+                        <th scope="col">工單</th>
+                        <th scope="col">件號</th>
+                        <th scope="col">件數</th>
+                        <th scope="col">材料</th>
+                        <th scope="col">機台名稱</th>
+                        <th scope="col">批號</th>
+                        <th scope="col">班別</th>
+                        <th scope="col">量測人員</th>
+                        <th scope="col">備註</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% include 'project_display/work_order_banner.html' %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+</html>

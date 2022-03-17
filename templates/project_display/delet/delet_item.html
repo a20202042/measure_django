@@ -1,0 +1,36 @@
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+<form method="post" action="{% url 'item_delet' id %}" class="js-item-delet-modal">
+    {% csrf_token %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close" style="padding: inherit; opacity:3;font-size:12px">
+            <span aria-hidden="true">x</span>
+        </button>
+        <h2 class="modal-title" style="">量測項目刪除</h2>
+    </div>
+    <div class="modal-body" style="text-align: left">
+        <h2 class="lead" style="font-size:160%"> 確認刪除量測項目</h2>
+        <p style="font-size: large">
+            量具名稱：{{ tool_name }}<br>
+            專案名稱：{{ project_measure }}<br>
+            量測項目名稱：{{ measurement_items }}<br>
+            量測數值上限：{{ upper_limit }}<br>
+            量測數值下限：{{ lower_limit }}<br>
+            量測數值中心：{{ specification_center }}<br>
+            量測次數：{{ measure_points }}<br>
+            量測點數：{{ measure_number }}<br>
+            量測小數點位數：{{ decimal_piaces }}<br>
+            量測單位：{{ measure_unit }}<br>
+            <img src="{{ MEDIA_URL }}{{ image }}" width='500' height="500" align="center">
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn primary" data-dismiss="modal">
+            關閉
+        </button>
+        <button type="submit" class="btn"
+                style="background:  #d9534f; box-shadow:inset 0 0 0 2px #d9534f;">
+            <span style="color: white" class="glyphicon glyphicon-trash"> 刪除量測項目</span>
+        </button>
+    </div>
+</form>

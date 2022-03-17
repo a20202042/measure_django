@@ -1,0 +1,29 @@
+{% for w in work_order %}
+    <tr align="center" valign="center">
+        <td style="vertical-align: revert">{{ w.project_measure }} </td>
+        <td style="vertical-align: revert">{{ w.sor_no }} </td>
+        <td style="vertical-align: revert">{{ w.part_no }} </td>
+        <td style="vertical-align: revert">{{ w.number_of_parts }}</td>
+        <td style="vertical-align: revert">{{ w.materials }}</td>
+        <td style="vertical-align: revert">{{ w.manufacturing_machine }}</td>
+        <td style="vertical-align: revert">{{ w.batch_number }}</td>
+        <td style="vertical-align: revert">{{ w.Class }}</td>
+        <td style="vertical-align: revert">{{ w.inspector }}</td>
+        <td style="vertical-align: revert">{{ w.remake }}</td>
+        <td style="vertical-align: revert">
+            <button type="button"
+                    style="box-shadow:inset 0 0 0 2px #d9534f; color: #d9534f;"
+                    class="btn  js-delet-work-order btn-danger text-white"
+                    data-url="{% url 'work_order_delet' w.id %}">
+                <span style="color: white" class="glyphicon glyphicon-trash">刪除</span>
+            </button>
+            <button type="button"
+                    class="btn js-update-work-order  btn-warning"
+                    style="box-shadow:inset 0 0 0 2px #f0ad4e;"
+                    data-url="{% url 'update_work_order' w.id %}">
+                <span style="color: white" class="glyphicon glyphicon-pencil">修改</span>
+
+            </button>
+        </td>
+    </tr>
+{% endfor %}

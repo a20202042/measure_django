@@ -1,0 +1,204 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"
+        integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg=="
+        crossorigin="anonymous"></script>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Orange'],
+            datasets: [{
+                label: ['# of Votes', '# of Votes', '# of Votes', '# of Votes', '# of Votes', '# of Votes', '# of Vo'],
+                data: [12, 13, 3, 5, 2, 3, 5],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    // For a bubble chart
+
+</script>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script>
+        window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Popular Fast Food Chains"
+                },
+                axisY: {
+                    title: "Number of Locations",
+                    lineColor: "#4F81BC",
+                    tickColor: "#4F81BC",
+                    labelFontColor: "#4F81BC"
+                },
+                axisY2: {
+                    title: "Percent",
+                    suffix: "%",
+                    lineColor: "#C0504E",
+                    tickColor: "#C0504E",
+                    labelFontColor: "#C0504E"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: [
+                        {label: "Subways", y: 44853},
+                        {label: "McDonald", y: 36525},
+                        {label: "Starbucks", y: 23768},
+                        {label: "KFC", y: 19420},
+                        {label: "Pizza Hut", y: 13528},
+                        {label: "Dunkin Donuts", y: 11906}
+                    ]
+                }]
+            });
+            chart.render();
+            createPareto();
+
+            function createPareto() {
+                var dps = [];
+                var yValue, yTotal = 0, yPercent = 0;
+
+                for (var i = 0; i < chart.data[0].dataPoints.length; i++)
+                    yTotal += chart.data[0].dataPoints[i].y;
+
+                for (var i = 0; i < chart.data[0].dataPoints.length; i++) {
+                    yValue = chart.data[0].dataPoints[i].y;
+                    yPercent += (yValue / yTotal * 100);
+                    dps.push({label: chart.data[0].dataPoints[i].label, y: yPercent});
+                }
+
+                chart.addTo("data", {type: "line", yValueFormatString: "0.##\"%\"", dataPoints: dps});
+                chart.data[1].set("axisYType", "secondary", false);
+                chart.axisY[0].set("maximum", yTotal);
+                chart.axisY2[0].set("maximum", 100);
+            }
+
+        }
+    </script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<div id="tester" style="width:600px;height:500px;"></div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<!-- Plots go in blank <div> elements.
+    You can size them in the plot layout,
+    or give the div a size as shown here.
+-->
+<script language="JavaScript">
+    TESTER = document.getElementById('tester');
+    var Data = {
+        type: 'scatter',
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        y: [4, 2, -1, 4, -5, -7, 0, 3, 8],
+        mode: 'lines+markers',
+        name: 'Data',
+        showlegend: true,
+        hoverinfo: 'all',
+        line: {
+            color: 'blue',
+            width: 2
+        },
+        marker: {
+            color: 'blue',
+            size: 8,
+            symbol: 'circle'
+        }
+    }
+
+    var Viol = {
+        type: 'scatter',
+        x: [6, 9],
+        y: [-7, 8],
+        mode: 'markers',
+        name: 'Violation',
+        showlegend: true,
+        marker: {
+            color: 'rgb(255,65,54)',
+            line: {width: 3},
+            opacity: 0.5,
+            size: 12,
+            symbol: 'circle-open'
+        }
+    }
+
+    var CL = {
+        type: 'scatter',
+        x: [0.5, 10, null, 0.5, 10],
+        y: [-5, -5, null, 5, 5],
+        mode: 'lines',
+        name: 'LCL/UCL',
+        showlegend: true,
+        line: {
+            color: 'red',
+            width: 2,
+            dash: 'dash'
+        }
+    }
+
+    var Centre = {
+        type: 'scatter',
+        x: [0.5, 10],
+        y: [0, 0],
+        mode: 'lines',
+        name: 'Centre',
+        showlegend: true,
+        line: {
+            color: 'grey',
+            width: 2
+        }
+    }
+
+    var data = [Data, Viol, CL, Centre]
+
+    var layout = {
+        title: 'Basic SPC Chart',
+        xaxis: {
+            zeroline: false
+        },
+        yaxis: {
+            range: [-10, 10],
+            zeroline: false
+        }
+    }
+
+    Plotly.newPlot('tester', data, layout);
+    console.log( Plotly.BUILD );
+</script>
+<div id="tester" style="width:500px;height:500px;"></div>
+
+</body>
+</html>
+

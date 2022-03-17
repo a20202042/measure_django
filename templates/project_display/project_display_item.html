@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common_block/head.html' %}
+    <link rel="shortcut icon" href="{% static "../favicon.ico" %}"/>
+</head>
+<body class="is-preload">
+<div id="wrapper">
+    <div id="main">
+        <div class="inner">
+            {% include 'project_display/project_delet_menu_name.html' %}
+            <div>
+                {% csrf_token %}
+                <table class="table table-bordered" id = 'item_table'>
+                    <thead>
+                    <tr>
+                        <th scope="col">量具名稱</th>
+                        <th scope="col">專案名稱</th>
+                        <th scope="col">量測項目名稱</th>
+                        <th scope="col">量測數值上限</th>
+                        <th scope="col">量測數值下限</th>
+                        <th scope="col">量測數值中心</th>
+                        <th scope="col">量測次數</th>
+                        <th scope="col">量測點數</th>
+                        <th scope="col">量測小數點位數</th>
+                        <th scope="col">量測單位</th>
+                        <th scope="col">部位圖片</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% include 'project_display/item_banner.html' %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div class="inner">
+            {% include 'common_block/menu.html' %}
+            <section>
+                {% include 'common_block/statement.html' %}
+            </section>
+            <footer id="footer">
+                {% include 'common_block/footer.html' %}
+            </footer>
+        </div>
+    </div>
+</div>
+{% include 'common_block/scripts.html' %}
+</body>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+{#<canvas id="myChart" width="400" height="400"></canvas>#}
+{#<script>#}
+{#var ctx = document.getElementById('myChart').getContext('2d');#}
+{#var myChart = new Chart(ctx, {#}
+{#    type: 'bar',#}
+{#    data: {#}
+{#        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],#}
+{#        datasets: [{#}
+{#            label: '# of Votes',#}
+{#            data: [12, 19, 3, 5, 2, 3],#}
+{#            backgroundColor: [#}
+{#                'rgba(255, 99, 132, 0.2)',#}
+{#                'rgba(54, 162, 235, 0.2)',#}
+{#                'rgba(255, 206, 86, 0.2)',#}
+{#                'rgba(75, 192, 192, 0.2)',#}
+{#                'rgba(153, 102, 255, 0.2)',#}
+{#                'rgba(255, 159, 64, 0.2)'#}
+{#            ],#}
+{#            borderColor: [#}
+{#                'rgba(255, 99, 132, 1)',#}
+{#                'rgba(54, 162, 235, 1)',#}
+{#                'rgba(255, 206, 86, 1)',#}
+{#                'rgba(75, 192, 192, 1)',#}
+{#                'rgba(153, 102, 255, 1)',#}
+{#                'rgba(255, 159, 64, 1)'#}
+{#            ],#}
+{#            borderWidth: 1#}
+{#        }]#}
+{#    },#}
+{#    options: {#}
+{#        scales: {#}
+{#            yAxes: [{#}
+{#                ticks: {#}
+{#                    beginAtZero: true#}
+{#                }#}
+{#            }]#}
+{#        }#}
+{#    }#}
+{#});#}
+{#</script>#}
+</html>

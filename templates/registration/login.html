@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		{% include 'common_block/head.html' %}
+	</head>
+	<body class="is-preload">
+			<div id="wrapper">
+					<div id="main">
+						<div class="inner">
+							<!-- Header -->
+								{% include 'common_block/logo.html' %}
+                            <section id="banner">
+                                <div class="content">
+                                    <header>
+                                        <h2>使用者登入</h2>
+                                    </header>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form.username.label_tag}}
+                                        {{ form.username }}<br>
+                                        {{ form.password.label_tag }}
+                                        {{ form.password }}<br>
+                                        {% if form.errors %}
+                                            <p>Your username and password didn't match. Please try again.</p>
+                                        {% endif %}
+                                        <div class="col-sm-10">
+                                            <input class="form-control form-control-lg" type="submit" value="登入" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </section>
+						</div>
+					</div>
+					<div id="sidebar">
+						<div class="inner">
+                            {% include 'common_block/menu.html' %}
+								<section>
+								{% include 'common_block/statement.html' %}
+								</section>
+							<!-- Footer -->
+								<footer id="footer">
+								{% include 'common_block/footer.html' %}
+								</footer>
+						</div>
+					</div>
+			</div>
+		<!-- Scripts -->
+			{% include 'common_block/scripts.html' %}
+	</body>
+</html>

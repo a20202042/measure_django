@@ -1,0 +1,37 @@
+{##<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+<form method="post" action='{% url 'work_order_delet' id  %}' class="js-delet-work-order-modal">
+    {% csrf_token %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close" style="padding: inherit; opacity:3;font-size:12px">
+            <span aria-hidden="true">x</span>
+        </button>
+        <h2 class="modal-title" style="">工單刪除</h2>
+    </div>
+    <div class="modal-body" style="text-align: left">
+        <h2 class="lead" style="font-size:160%"> 刪除工單：</h2>
+        <p style="font-size: large">
+            專案名稱：{{ project }}<br>
+            工單：{{ work_order }}<br>
+            件號：{{ number_of_parts }}<br>
+            件數：{{ materials}}<br>
+            材料：{{ materials }}<br>
+            機台名稱：{{ manufacturing_machine }}<br>
+            班別：{{ batch_number }}<br>
+            量測人員：{{inspector }}<br>
+            備註：{{ remake }}<br>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn primary " data-dismiss="modal"
+{#                style="box-shadow: none" 外框隱藏#}>
+            關閉
+        </button>
+        <button type="submit" class="btn"
+                style="background:  #d9534f; box-shadow:inset 0 0 0 2px #d9534f;">
+           <span style="color: white" class="glyphicon glyphicon-trash">
+               刪除工單
+           </span>
+        </button>
+    </div>
+</form>

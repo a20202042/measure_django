@@ -1,0 +1,36 @@
+{% load static %}
+{% for part_remake in part_remake %}
+    {% if part_remake.part_number == p.number %}
+        <td colspan="2"
+            style="background-color: rgb(245,201,96); vertical-align: middle; font-size: 20px;text-align:center;">備註
+        </td>
+        {% if part_remake.remake  != '' %}
+            <td colspan="6" style="vertical-align: middle;">
+                {{ part_remake.remake }}
+            </td>
+        {% elif part_remake.remake  == '' %}
+            <td style="background-color: #7f8c96; vertical-align: middle;text-align:center;" colspan="10">
+            </td>
+        {% endif %}
+        <td colspan="1">
+            <button type="button"
+                    class="btn js-update-part_remake_{{ part_remake.id }} btn-warning  button "
+                    style="box-shadow:inset 0 0 0 2px #f0ad4e;"
+                    data-url="{% url 'work_order_form_update_parts_remake' part_remake.id %}">
+                <span style="color: white" class="glyphicon glyphicon-pencil">備註修改</span>
+            </button>
+        </td>
+    {% endif %}
+{% endfor %}
+<td colspan="2"
+    style="vertical-align: middle; font-size: larger; background-color:rgb(129,196,190); font-weight:bold;text-align:center;">
+    零件情況
+</td>
+<td colspan="2" style="vertical-align: middle;font-size: larger;text-align:center;font-weight:bold;">
+    情況
+</td>
+<td colspan="1" style="vertical-align: middle;text-align:center;">
+    <button type="button" class="btn-warning button btn" style="box-shadow:inset 0 0 0 2px #f0ad4e;">
+        <span style="color: white" class="glyphicon glyphicon-plus">情況新增0.</span>
+    </button>
+</td>
