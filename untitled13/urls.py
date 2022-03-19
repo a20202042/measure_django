@@ -46,6 +46,8 @@ urlpatterns = [
                        name='work_order_item_update'),
                   path('measure_work_order_data_display/', views.measure_work_order_data_display),  # 顯示工單所量測完成的數據。
                   path('measure_work_order_data_display/update_js/<str:id>', views.work_order_form_update_parts_remake, name='work_order_form_update_parts_remake'),
+                  path('measure_work_order_data_display/update_type_js/<str:id>', views.work_order_form_update_parts_type,
+                       name='work_order_form_update_parts_type'),
                   path('measure_work_order_data_display/<str:id>', views.work_order_measure_data_form, name='work_data_display'),
                   path('form_measure_tool/', views.measure_tool),
                   path('form_measure_item/', views.measure_item),

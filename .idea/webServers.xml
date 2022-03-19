@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="599908e6-9322-4014-a04b-845daf74258b" name="pdal_linux">
+        <fileTransfer rootFolder="/home/pdal-linux/measure-project" accessType="SFTP" host="163.18.69.20" port="2233" sshConfigId="9e538e31-18f5-4f50-b1a3-43ceaa65d9a5" sshConfig="pdal-linux@163.18.69.20:2233 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

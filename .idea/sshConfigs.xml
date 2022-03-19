@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="163.18.69.20" id="9e538e31-18f5-4f50-b1a3-43ceaa65d9a5" port="2233" nameFormat="DESCRIPTIVE" username="pdal-linux" />
+    </configs>
+  </component>
+</project>

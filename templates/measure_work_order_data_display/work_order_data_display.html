@@ -13,7 +13,7 @@
             <div>
                 <div class="row">
                     <div class="col-sm">
-                        <a class="image" onclick="project_image_show()" style="width: 500px">
+                        <a class="image" onclick="project_image_show()" style="width: 800px">
                             <img class="image" src='{{ MEDIA_URL }}{{ project_image }}' align="center">
                         </a>
                     </div>
@@ -86,6 +86,10 @@
                     .modal {
                         display: none;
                     }
+
+                    .image {
+                        width: 120px;
+                    }
                 }
             </style>
             <table class="table table-bordered" id='table'>
@@ -146,6 +150,7 @@
                         <tr>
                             <th rowspan="2" colspan="1">項次</th>
                             <th rowspan="2" colspan="1">名稱</th>
+                            <th rowspan="2" colspan="1">部位圖示</th>
                             <th colspan="4">inch</th>
                             <th colspan="4">mm</th>
                             <th colspan="2">量測值</th>
@@ -169,23 +174,44 @@
                         <tbody>
                         {% for item in p.part_number %}
                             <tr>
-                                <th colspan="1">{{ item.number }}</th>
-                                <th colspan="1">{{ item.measure_item_name }}</th>
-                                <th colspan="1">{{ item.center_in }}</th>
-                                <th colspan="1">{{ item.tolerance_in }}</th>
-                                <th colspan="1">{{ item.upper_in }}</th>
-                                <th colspan="1">{{ item.lower_in }}</th>
-                                <th colspan="1">{{ item.center_mm }}</th>
-                                <th colspan="1">{{ item.tolerance_mm }}</th>
-                                <th colspan="1">{{ item.upper_mm }}</th>
-                                <th colspan="1">{{ item.lower_mm }}</th>
-                                <th colspan="1">{{ item.value_in }}</th>
-                                <th colspan="1">{{ item.value_mm }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.number }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.measure_item_name }}</th>
+                                {% for m_i in  measure_item_image %}
+                                    {#                                    <th>{{ m_i.item_name }}</th>#}
+                                    {#                                    {{ item.measure_item_name }}#}
+                                    {% if m_i.item_name == item.measure_item_name %}
+                                        {% widthratio forloop.counter0 1 m_i.item_number as  a %}
+                                        {#                                        {{ a }}{{ forloop.parentloop.counter0 }}#}
+                                        {#                                        {{ forloop.parentloop }}#}
+                                        {#                                        <script language="JavaScript">#}
+                                        {#                                        alert({{ a }})#}
+                                        {#                                        </script>#}
+                                        {% if a|add:0 == forloop.parentloop.counter0 %}
+                                            <th colspan="1" rowspan={{ m_i.item_number }}>
+                                                <img class="image" width="200"
+                                                     onclick="measure_item_image_show({{ m_i.id }})"
+                                                     style="display:block; margin:auto;"
+                                                     src="{{ MEDIA_URL }}{{ m_i.image }}">
+                                            </th>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.center_in }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.tolerance_in }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.upper_in }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.lower_in }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.center_mm }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.tolerance_mm }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.upper_mm }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.lower_mm }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.value_in }}</th>
+                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.value_mm }}</th>
                                 {% if item.GO == 'GO' %}
-                                    <th colspan="1" style="background-color:#05944c;color: #dddddd;">{{ item.GO }}</th>
+                                    <th colspan="1" style="background-color:#05944c;color: #dddddd;
+                                    vertical-align:middle;text-align:center;">{{ item.GO }}</th>
                                 {% elif item.GO == 'NOGO' %}
                                     <th colspan="1"
-                                        style="background-color:rgba(210,39,39,0.72); color: #dddddd;">{{ item.GO }}</th>
+                                        style="background-color:rgba(210,39,39,0.72); color: #dddddd;vertical-align:middle;text-align:center;">{{ item.GO }}</th>
                                 {% endif %}
                                 <th>{{ item.measure_tool }}</th>
                             </tr>
@@ -283,7 +309,22 @@
         </div>
     </div>
 {% endfor %}
+
+{% for a in measure_item_image %}
+    <div class="modal" id=measure_item_modal{{ a.id }} tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="{{ MEDIA_URL }}{{ a.image }}" width="860px">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 </html>
+
 <script language="JavaScript">
 
     function project_image_show() {
@@ -293,6 +334,12 @@
     function appearance_image_show(id) {
         $('#appearance_modal').modal('show');
         name = '#' + 'appearance_modal_' + id;
+        $(name).modal('show');
+    }
+
+    function measure_item_image_show(id) {
+        $('#measure_item_modal').modal('show');
+        name = '#' + 'measure_item_modal' + id;
         $(name).modal('show');
     }
 
@@ -308,8 +355,8 @@
     }];
 
     var layout = {
-        height: 300,
-        width: 300
+        height: 450,
+        width: 450
     };
 
     Plotly.newPlot('test', data, layout);
@@ -363,6 +410,13 @@
         {% endfor %}
         {% for part_remake in part_remake %}
             $('#modal').on("submit", ".js-work_order-remake-update-form-{{ part_remake.id }}", saveForm);
+        {% endfor %}
+
+        {% for part_remake in part_remake %}
+            $("#work_order_parts_number_table_{{ part_remake.part_number }}").on("click", ".js-update-part_type{{ part_remake.id }}", loadForm);
+        {% endfor %}
+        {% for part_remake in part_remake %}
+            $('#modal').on("submit", ".js-work_order-type-update-form-{{ part_remake.id }}", saveForm);
         {% endfor %}
         {#$("#work_order_parts_number_table").on("click", ".js-update-part_remake", loadForm);#}
         {#$("#modal").on("submit", ".js-work_order-update-form", saveForm);#}

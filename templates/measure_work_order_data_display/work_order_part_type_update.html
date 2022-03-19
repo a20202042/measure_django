@@ -1,5 +1,5 @@
-<form method="post" action="{% url 'work_order_form_update_parts_remake' form.instance.id %}"
-      class="js-work_order-remake-update-form-{{ form.instance.id }}" enctype="multipart/form-data">
+<form method="post" action="{% url 'work_order_form_update_parts_type' form.instance.id %}"
+      class="js-work_order-type-update-form-{{ form.instance.id }}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
