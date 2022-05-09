@@ -341,7 +341,9 @@ def work_order_display(request):
         work_order_form = forms.Work_order(request.POST)
         if work_order_form.is_valid():
             work_order_form.save()
-            insert_work_order = models.measurement_work_order.objects.latest('id')
+            work_order = request.POST.copy()
+            print(work_order['sor_no'])
+            insert_work_order = models.measurement_work_order.objects.get(sor_no=work_order['sor_no'])
             insert_work_order_id = insert_work_order.id
             insert_work_order_project = insert_work_order.project_measure_id
             measure_items = models.measure_items.objects.filter(project=insert_work_order_project).values()
@@ -499,7 +501,7 @@ def save_appearance_image(file_name, base64_data):
 
 
 def work_order_measure_data_form(request, id):
-    print(id)
+    # print(id)
     project_id = models.measurement_work_order.objects.get(id=id).project_measure_id
     project = models.project.objects.get(id=project_id)
     project_image = models.project.objects.get(id=project_id).project_image
@@ -510,6 +512,17 @@ def work_order_measure_data_form(request, id):
     measure_values_data = []
     number_of_parts = w.number_of_parts
     part_remake = models.work_order_parts_reamke.objects.filter(work_order_id=id)
+    work_order_appearance = models.work_order_appearance_defect.objects.filter(work_order_id=id)
+    # -------------------
+    for item in part_remake:
+        if item.remake == '':
+            remake = str()
+            for appearance in work_order_appearance:
+                if appearance.part_number == item.part_number:
+                    print(appearance.part_number)
+                    print(item.part_number)
+                    remake = remake + appearance.remake + '。'
+            item.remake = remake
     # -------------------
     # 圖片儲存
     appearance_all = models.work_order_appearance_defect.objects.filter(work_order_id=id)
@@ -554,11 +567,30 @@ def work_order_measure_data_form(request, id):
         elif no_go == False:
             go_list.append(no_go)
     # print(nogo_list)
-    Yield = len(go_list) / (len(go_list) + len(nogo_list))
+    special_use = []
+    go_use = []
+    no_use = []
+    work_order_part = models.work_order_parts_reamke.objects.filter(work_order_id=id).all()
+    for item in work_order_part:
+        if item.part_type == '特採':
+            special_use.append(item.part_type)
+            # pass
+        elif item.part_type == '報廢':
+            no_use.append(item.part_type)
+        elif item.part_type == '良品':
+            go_use.append(item.part_type)
+
+    special_use_number = len(special_use)
+    number_yield = len(go_use)
+    number_no_yield = len(go_use)
+    number_all = len(go_use) + len(go_use) + len(special_use)
+    if special_use_number == 0 and number_yield == 0 and number_no_yield == 0 and number_all == 0:
+        special_use_number = '未確認'
+        number_yield = '未確認'
+        number_no_yield = '未確認'
+        number_all = '未確認'
+    Yield = len(go_list) + len(special_use) / (len(go_list) + len(nogo_list))
     no_yield = len(nogo_list) / (len(go_list) + len(nogo_list))
-    number_yield = len(go_list)
-    number_no_yield = len(nogo_list)
-    number_all = len(go_list) + len(nogo_list)
 
     all_data = []
     measure_number = []
@@ -636,15 +668,12 @@ def work_order_measure_data_form(request, id):
 
         all_data.append(
             {'part_number': item, 'number': str(number)})
-    print(all_data)
     measure_item_image = []
     work_order_measure_items = models.work_order_measure_items.objects.filter(measurement_work_order_id=id).all()
     for item in work_order_measure_items:
         insert_data = {'item_name': str(item.measurement_items), 'item_number': int(item.measure_number),
-                       'image': item.image, 'id':item.id}
+                       'image': item.image, 'id': item.id}
         measure_item_image.append(insert_data)
-
-    print(measure_item_image)
     return render(request, 'measure_work_order_data_display/work_order_data_display.html', locals())
 
 

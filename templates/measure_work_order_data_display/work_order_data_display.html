@@ -12,30 +12,56 @@
             {% include 'data_display/logo/data_display_logo.html' %}
             <div>
                 <div class="row">
-                    <div class="col-sm">
-                        <a class="image" onclick="project_image_show()" style="width: 800px">
-                            <img class="image" src='{{ MEDIA_URL }}{{ project_image }}' align="center">
-                        </a>
+                    <div class="col-sm ">
+                        <div class="col">
+                            <img class="image" onclick="project_image_show()" style="width: 450px"
+                                 src='{{ MEDIA_URL }}{{ project_image }}' align="center">
+                        </div>
                     </div>
                     <div class="col-sm">
                         <div class="col">
-                            <div id="test"></div>
+                            {#                            <div id="test"></div>#}
                         </div>
-                        <table class="table-bordered" align="center">
-                            <thead>
-                            <tr align="center" valign="center">
-                                <th>良品數</th>
-                                <th style="color: #3c763d;">{{ number_yield }}</th>
-                            </tr>
-                            <tr align="center" valign="center">
-                                <th>不良品數</th>
-                                <th style="color:red">{{ number_no_yield }}</th>
-                            </tr>
-                            <tr align="center" valign="center">
-                                <th>總產品數</th>
-                                <th style="color: #000000;">{{ number_all }}</th>
-                            </tr>
-                            </thead>
+                        <table class="table-bordered table_yeid" align="center" valign="center">
+                            {% if number_yield == '未確認' %}
+                                <thead>
+                                <tr align="center" valign="center">
+                                    <th>良品數量</th>
+                                    <th style="color: #1850B7FF;">{{ number_yield }}</th>
+                                </tr>
+                                <tr align="center" valign="center">
+                                    <th>報廢數量</th>
+                                    <th style="color:#1850b7">{{ number_no_yield }}</th>
+                                </tr>
+                                <tr align="center" valign="center">
+                                    <th>特採數量</th>
+                                    <th style="color: #1850B7FF;">{{ special_use_number }}</th>
+                                </tr>
+                                <tr align="center" valign="center">
+                                    <th>總產品數</th>
+                                    <th style="color: #1850B7FF;">{{ number_all }}</th>
+                                </tr>
+                                </thead>
+                            {% else %}
+                                <thead>
+                                <tr align="center" valign="center">
+                                    <th>良品數量</th>
+                                    <th style="color: #3c763d;">{{ number_yield }}</th>
+                                </tr>
+                                <tr align="center" valign="center">
+                                    <th>報廢數量</th>
+                                    <th style="color:red">{{ number_no_yield }}</th>
+                                </tr>
+                                <tr align="center" valign="center">
+                                    <th>特採數量</th>
+                                    <th style="color: #000000;">{{ special_use_number }}</th>
+                                </tr>
+                                <tr align="center" valign="center">
+                                    <th>總產品數</th>
+                                    <th style="color: #000000;">{{ number_all }}</th>
+                                </tr>
+                                </thead>
+                            {% endif %}
                         </table>
                     </div>
                     <div class="col-sm">
@@ -44,12 +70,17 @@
             </div>
             <style>
                 @media print {
-                    html {
-                        height: 100vh;
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        overflow: hidden;
+                {#html {height: 100vh;#}
+                {#    margin: 10px;#}
+                {#    padding: 10px;#}
+                {#    overflow: hidden;}#}
+                    @page {
+                        size: A4 landscape;
+                        margin: 10cm;
+                        orphans: 4;
+                        widows: 2;
                     }
+
 
                     body.printing {
                         display: block;
@@ -59,10 +90,11 @@
                         page-break-inside: avoid;
                         column-width: 17em;
                         column-gap: 3em;
-                        width: 990px;
+                        width: 1000px;
                         font-size: 3px;
-                        margin-top: 0;
-                        padding-top: 0;
+                        margin-top: 20px;
+                        padding: 10px;
+                        align-items: revert;
                     }
 
                     body {
@@ -70,9 +102,8 @@
                     }
 
                     .appearance {
-                        width: 1000px;
-                        margin-top: 0;
-                        padding-top: 0;
+                        width: 1050px;
+                    {#margin-top: 0;#}{#padding-top: 0;#}
                     }
 
                     .button {
@@ -90,9 +121,24 @@
                     .image {
                         width: 120px;
                     }
+
+                    .project_image {
+                        width: 50px;
+                    }
+
+                    .table_yeid {
+                        width: 150px;
+                    {#height: min-content;#} font-size: 3px;
+                    }
+
+                    .table_work_order {
+                        width: 800px;
+                        font-size: 5px;
+                    }
+
                 }
             </style>
-            <table class="table table-bordered" id='table'>
+            <table class="table table-bordered table_work_order" id='table'>
                 <thead>
                 <tr align="center" valign="center">
                     <th scope="col">專案名稱</th>
@@ -175,7 +221,8 @@
                         {% for item in p.part_number %}
                             <tr>
                                 <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.number }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.measure_item_name }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.measure_item_name }}</th>
                                 {% for m_i in  measure_item_image %}
                                     {#                                    <th>{{ m_i.item_name }}</th>#}
                                     {#                                    {{ item.measure_item_name }}#}
@@ -196,16 +243,26 @@
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.center_in }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.tolerance_in }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.upper_in }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.lower_in }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.center_mm }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.tolerance_mm }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.upper_mm }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.lower_mm }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.value_in }}</th>
-                                <th colspan="1" style="vertical-align:middle;text-align:center;">{{ item.value_mm }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.center_in }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.tolerance_in }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.upper_in }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.lower_in }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.center_mm }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.tolerance_mm }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.upper_mm }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.lower_mm }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.value_in }}</th>
+                                <th colspan="1"
+                                    style="vertical-align:middle;text-align:center;">{{ item.value_mm }}</th>
                                 {% if item.GO == 'GO' %}
                                     <th colspan="1" style="background-color:#05944c;color: #dddddd;
                                     vertical-align:middle;text-align:center;">{{ item.GO }}</th>
@@ -324,7 +381,10 @@
     </div>
 {% endfor %}
 </html>
-
+{% for part_remake in part_remake %}
+    {{ part_remake.part_number }}
+    {{ part_remake.id }}
+{% endfor %}
 <script language="JavaScript">
 
     function project_image_show() {
@@ -355,11 +415,11 @@
     }];
 
     var layout = {
-        height: 450,
-        width: 450
+        height: 300,
+        width: 300
     };
 
-    Plotly.newPlot('test', data, layout);
+    {#Plotly.newPlot('test', data, layout);#}
 
     $(function () {
         /* Functions */
@@ -415,9 +475,11 @@
         {% for part_remake in part_remake %}
             $("#work_order_parts_number_table_{{ part_remake.part_number }}").on("click", ".js-update-part_type{{ part_remake.id }}", loadForm);
         {% endfor %}
+
         {% for part_remake in part_remake %}
             $('#modal').on("submit", ".js-work_order-type-update-form-{{ part_remake.id }}", saveForm);
         {% endfor %}
+        {#$("#work_order_parts_number_table_1").on("click", ".js-update-part_remake_1061", loadForm);#}
         {#$("#work_order_parts_number_table").on("click", ".js-update-part_remake", loadForm);#}
         {#$("#modal").on("submit", ".js-work_order-update-form", saveForm);#}
 

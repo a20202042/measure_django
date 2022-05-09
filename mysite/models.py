@@ -141,7 +141,7 @@ class work_order_parts_reamke(models.Model):
     work_order = models.ForeignKey(measurement_work_order, on_delete=models.CASCADE)
     part_number = models.CharField(max_length=200)
     remake = models.TextField(max_length=500, blank=True)
-    type = (('type_1', 'type_1'), ('type_2', 'type_2'), ('type_3', 'type_3'),)
+    type = (('特採', '特採'), ('報廢', '報廢'), ('良品', '良品'),)
     part_type = models.CharField(choices=type, max_length=10)
 
     def __str__(self):
