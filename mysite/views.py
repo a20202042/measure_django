@@ -557,11 +557,18 @@ def work_order_measure_data_form(request, id):
                 measure_item = models.work_order_measure_items.objects.get(id=value.measure_work_order_measure_item_id)
                 upper = measure_item.upper_limit
                 lower = measure_item.lower_limit
-                if value.measure_value > upper or value.measure_value < lower:
-                    no_go = True
-                    break
-                else:
-                    pass
+                try:
+                    if float(value.measure_value) > upper or float(value.measure_value) < lower:
+                        no_go = True
+                        break
+                    else:
+                        pass
+                except:
+                    if str(value.measure_value) == 'NO_GO':
+                        no_go = True
+                        break
+                    else:
+                        pass
         if no_go == True:
             nogo_list.append(no_go)
         elif no_go == False:
@@ -582,8 +589,8 @@ def work_order_measure_data_form(request, id):
 
     special_use_number = len(special_use)
     number_yield = len(go_use)
-    number_no_yield = len(go_use)
-    number_all = len(go_use) + len(go_use) + len(special_use)
+    number_no_yield = len(no_use)
+    number_all = len(no_use) + len(go_use) + len(special_use)
     if special_use_number == 0 and number_yield == 0 and number_no_yield == 0 and number_all == 0:
         special_use_number = '未確認'
         number_yield = '未確認'
@@ -603,11 +610,21 @@ def work_order_measure_data_form(request, id):
                 measure_item = models.work_order_measure_items.objects.get(id=value.measure_work_order_measure_item_id)
                 up_range = float(measure_item.upper_limit)
                 low_range = float(measure_item.lower_limit)
-                value_range = float(value.measure_value)
+                value_range = value.measure_value
+
+                if str(value_range) == 'GO':
+                    value_range = (up_range + low_range) / 2
+                elif str(value_range) == 'NO_GO':
+                    value_range = low_range - 1
+                else:
+                    value_range = float(value_range)
+
                 if value_range < low_range or value_range > up_range:
                     data['GO'] = 'NOGO'
                 else:
                     data['GO'] = 'GO'
+
+
                 if value.measure_unit == 'mm':
                     center = round(float(measure_item.specification_center), 4)
                     upper = round(float(measure_item.upper_limit), 4)
@@ -621,17 +638,18 @@ def work_order_measure_data_form(request, id):
                     data['lower_mm'] = measure_item.lower_limit
                     data['measure_item_name'] = measure_item.measurement_items
                     data['value_mm'] = value.measure_value
-                    data['value_in'] = round(float(value.measure_value) / 25.4, 4)
+                    if str(value.measure_value) == 'GO' or str(value.measure_value) == 'NO_GO':
+                        data['value_in'] = value.measure_value
+                    else:
+                        data['value_in'] = round(float(value.measure_value) / 25.4, 4)
                     data['center_in'] = round(float(measure_item.specification_center) / 25.4, 4)
                     data['upper_in'] = round(float(measure_item.upper_limit) / 25.4, 4)
                     data['lower_in'] = round(float(measure_item.lower_limit) / 25.4, 4)
                     data['measure_tool'] = measure_item.tool_name
                     data['tolerance_in'] = '+%s/-%s' % (
                         round(
-                            (float(measure_item.upper_limit) / 25.4 - float(measure_item.specification_center) / 25.4),
-                            3),
-                        round(float(measure_item.specification_center) / 25.4 - float(measure_item.lower_limit) / 25.4,
-                              3))
+                            (float(measure_item.upper_limit) / 25.4 - float(measure_item.specification_center) / 25.4),3),
+                        round(float(measure_item.specification_center) / 25.4 - float(measure_item.lower_limit) / 25.4,3))
                     measure_item_number = list(value.measure_number)[-1]
                     # data['number'] = '%s - %s' % (n, measure_item_number)
                     data['number'] = n
@@ -648,7 +666,10 @@ def work_order_measure_data_form(request, id):
                     data['lower_in'] = measure_item.lower_limit
                     data['measure_item_name'] = measure_item.measurement_items
                     data['value_in'] = value.measure_value
-                    data['value_mm'] = round(float(value.measure_value) * 25.4, 3)
+                    if str(value.measure_value) == 'GO' or str(value.measure_value) == 'NO_GO':
+                        data['value_mm'] = value.measure_value
+                    else:
+                        data['value_mm'] = round(float(value.measure_value) * 25.4, 3)
                     data['center_mm'] = round(float(measure_item.specification_center) * 25.4, 3)
                     data['upper_mm'] = round(float(measure_item.upper_limit) * 25.4, 3)
                     data['lower_mm'] = round(float(measure_item.lower_limit) * 25.4, 3)
@@ -669,6 +690,7 @@ def work_order_measure_data_form(request, id):
         all_data.append(
             {'part_number': item, 'number': str(number)})
     measure_item_image = []
+    print(all_data)
     work_order_measure_items = models.work_order_measure_items.objects.filter(measurement_work_order_id=id).all()
     for item in work_order_measure_items:
         insert_data = {'item_name': str(item.measurement_items), 'item_number': int(item.measure_number),

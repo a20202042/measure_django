@@ -99,6 +99,6 @@ elif abs(cpk) >= 0.67 and abs(cpk) < 1.0:
 elif abs(cpk) < 0.67:
     cpk_colork = color['D']
 
-print(ca_color)
-print(cpk_color)
-print(cp_color)
+# print(ca_color)
+# print(cpk_color)
+# print(cp_color)

@@ -125,7 +125,7 @@ class measure_values(models.Model):
     measure_work_order = models.ForeignKey(measurement_work_order, on_delete=models.CASCADE)
     measure_work_order_measure_item = models.ForeignKey(work_order_measure_items, on_delete=models.CASCADE)
     measure_man = models.CharField(max_length=10)
-    measure_value = models.FloatField(max_length=20)
+    measure_value = models.CharField(max_length=20)
     measure_unit = models.CharField(choices=unit, max_length=5)
     measure_time = models.DateTimeField()
     measure_tool = models.ForeignKey(measuring_tool, on_delete=models.DO_NOTHING)
