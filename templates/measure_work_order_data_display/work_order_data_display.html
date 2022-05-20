@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-sm ">
                         <div class="col">
-                            <img class="image" onclick="project_image_show()" style="width: 450px"
+                            <img class="image" onclick="project_image_show()" style="width: 300px"
                                  src='{{ MEDIA_URL }}{{ project_image }}' align="center">
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                     }
 
                     .image {
-                        width: 120px;
+                        width: 100px;
                     }
 
                     .project_image {
@@ -381,10 +381,6 @@
     </div>
 {% endfor %}
 </html>
-{% for part_remake in part_remake %}
-    {{ part_remake.part_number }}
-    {{ part_remake.id }}
-{% endfor %}
 <script language="JavaScript">
 
     function project_image_show() {
