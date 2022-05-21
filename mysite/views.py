@@ -517,12 +517,12 @@ def work_order_measure_data_form(request, id):
     for item in part_remake:
         if item.remake == '':
             remake = str()
-            for appearance in work_order_appearance:
-                if appearance.part_number == item.part_number:
-                    print(appearance.part_number)
-                    print(item.part_number)
-                    remake = remake + appearance.remake + '。'
-            item.remake = remake
+            # for appearance in work_order_appearance:
+            #     if appearance.part_number == item.part_number:
+                    # print(appearance.part_number)
+                    # print(item.part_number)
+                    # remake = remake + appearance.remake + '。'
+            item.remake = item.remake
     # -------------------
     # 圖片儲存
     appearance_all = models.work_order_appearance_defect.objects.filter(work_order_id=id)
