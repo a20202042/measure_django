@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mysite',
     'widget_tweaks',
-    'django_cleanup.apps.CleanupConfig'  # 自動刪除media中照片模組
+    'django_cleanup.apps.CleanupConfig',  # 自動刪除media中照片模組
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,17 @@ LOGIN_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+CRONJOBS = [
+    ('*/1 * * * *', 'mysite.cron.my_cron_job')
+]
+
+# EmailProject/settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "a20202042@gmail.com"
+EMAIL_HOST_PASSWORD = 'gstxpmjbqxkfljox'

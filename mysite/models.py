@@ -134,7 +134,7 @@ class measure_values(models.Model):
     remake = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return str(self.measure_man)
+        return str(self.measure_work_order)
 
 
 class work_order_parts_reamke(models.Model):
